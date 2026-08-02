@@ -13,3 +13,12 @@ html(lang=htmlLang)
     if jsPath
       script(type="module" src=jsPath)
     block scripts
+
+    //- Google Analytics 4 (gtag.js) — production only, skip dev/local traffic
+    if isProd && site.gaId
+      script(async src=`https://www.googletagmanager.com/gtag/js?id=${site.gaId}`)
+      script.
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', !{JSON.stringify(site.gaId)});

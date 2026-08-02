@@ -16,7 +16,9 @@ export const SITE = {
   twitter: '@zxdong262',
   themeColor: '#1389FD',
   backgroundColor: '#ffffff',
-  locale: 'en'
+  locale: 'en',
+  // Google Analytics 4 measurement ID
+  gaId: 'G-LCY5SM7M8J'
 }
 
 export function siteUrl (isProd = true) {
