@@ -1,0 +1,23 @@
+extends ../layout.pug
+
+block content
+  .user-page
+    .loading#user-loading(data-i18n="page.loading")= page.loading
+    .user-content#user-content(style='display:none')
+      .user-header
+        img#user-avatar.user-avatar
+        .user-info
+          h1#user-name
+          a#user-github.user-github(href='#' target='_blank' rel='noopener')
+          .user-stats
+            span#user-theme-count
+            span#user-liked-count
+        .user-actions
+          a.btn.btn-secondary(href='/' data-i18n="page.createNewTheme")= page.createNewTheme
+          button#btn-logout.btn.btn-ghost(type='button' data-i18n="page.logout")= page.logout
+      section.user-section
+        h2.section-title(data-i18n="page.myThemes")= page.myThemes
+        .themes-list#user-themes
+      section.user-section
+        h2.section-title(data-i18n="page.likedThemes")= page.likedThemes
+        .themes-list#user-liked-themes

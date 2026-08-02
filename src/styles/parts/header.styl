@@ -1,0 +1,196 @@
+// === Header ===
+
+.site-header
+  position: sticky
+  top: 0
+  z-index: 100
+  background: rgba(255, 255, 255, 0.95)
+  backdrop-filter: blur(12px)
+  border-bottom: 1px solid var(--border)
+  height: var(--header-height)
+  display: flex
+  align-items: center
+
+.header-inner
+  display: flex
+  align-items: center
+  justify-content: space-between
+  width: 100%
+
+.brand
+  display: flex
+  align-items: center
+  gap: 8px
+
+.brand-logo
+  height: 32px
+  width: auto
+
+.mobile-menu-toggle
+  display: none
+  flex-direction: column
+  gap: 4px
+  padding: 8px
+
+  .bar
+    display: block
+    width: 22px
+    height: 2px
+    background: var(--gray-700)
+    border-radius: 2px
+    transition: all var(--transition)
+
+  &.active
+    .bar:nth-child(1)
+      transform: rotate(45deg) translate(5px, 5px)
+    .bar:nth-child(2)
+      opacity: 0
+    .bar:nth-child(3)
+      transform: rotate(-45deg) translate(5px, -5px)
+
+.main-nav
+  display: flex
+  align-items: center
+  gap: 24px
+
+.nav-list
+  display: flex
+  align-items: center
+  gap: 4px
+
+.nav-link
+  padding: 8px 14px
+  font-size: 0.92rem
+  font-weight: 500
+  color: var(--gray-600)
+  border-radius: var(--radius-sm)
+  transition: all var(--transition)
+
+  &:hover
+    color: var(--brand-600)
+    background: var(--brand-50)
+
+  &.active
+    color: var(--brand-600)
+    font-weight: 600
+
+.nav-actions
+  display: flex
+  align-items: center
+  gap: 12px
+
+// Language switcher
+.lang-switcher
+  position: relative
+
+.lang-current
+  display: flex
+  align-items: center
+  gap: 6px
+  padding: 6px 12px
+  font-size: 0.88rem
+  font-weight: 500
+  color: var(--gray-600)
+  border-radius: var(--radius-sm)
+  border: 1px solid var(--border)
+  transition: all var(--transition)
+
+  &:hover
+    border-color: var(--border-hover)
+    color: var(--gray-800)
+
+.lang-dropdown
+  position: absolute
+  top: 100%
+  right: 0
+  margin-top: 4px
+  min-width: 140px
+  background: #fff
+  border: 1px solid var(--border)
+  border-radius: var(--radius)
+  box-shadow: var(--shadow-card)
+  padding: 4px
+  z-index: 200
+
+.lang-option
+  display: flex
+  align-items: center
+  justify-content: space-between
+  width: 100%
+  padding: 8px 12px
+  font-size: 0.88rem
+  color: var(--gray-700)
+  border-radius: var(--radius-sm)
+  transition: background var(--transition)
+
+  &:hover
+    background: var(--gray-50)
+
+  &.active
+    color: var(--brand-600)
+    font-weight: 600
+
+// User menu
+.user-menu
+  position: relative
+
+.user-menu-toggle
+  display: flex
+  align-items: center
+  gap: 8px
+  padding: 4px 8px
+  border-radius: var(--radius-sm)
+  transition: background var(--transition)
+
+  &:hover
+    background: var(--gray-50)
+
+.user-menu-avatar
+  width: 32px
+  height: 32px
+  border-radius: 50%
+  object-fit: cover
+
+.user-menu-initials
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 32px
+  height: 32px
+  border-radius: 50%
+  background: var(--brand-100)
+  color: var(--brand-700)
+  font-weight: 600
+  font-size: 0.85rem
+
+.user-menu-dropdown
+  position: absolute
+  top: 100%
+  right: 0
+  margin-top: 4px
+  min-width: 180px
+  background: #fff
+  border: 1px solid var(--border)
+  border-radius: var(--radius)
+  box-shadow: var(--shadow-card)
+  padding: 4px
+  z-index: 200
+
+.user-menu-item
+  display: flex
+  align-items: center
+  gap: 10px
+  padding: 10px 12px
+  font-size: 0.9rem
+  color: var(--gray-700)
+  border-radius: var(--radius-sm)
+  transition: background var(--transition)
+
+  &:hover
+    background: var(--gray-50)
+    color: var(--gray-900)
+
+.user-menu-divider
+  height: 1px
+  background: var(--border)
+  margin: 4px 0

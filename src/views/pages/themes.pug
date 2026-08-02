@@ -1,0 +1,14 @@
+extends ../layout.pug
+
+block content
+  .themes-page
+    .page-header
+      h1.page-title(data-i18n="page.title")= page.title
+      .page-stats#theme-stats
+      .sort-controls
+        button.sort-btn.active(type='button' data-sort='newest' data-i18n="page.newest")= page.newest
+        button.sort-btn(type='button' data-sort='popular' data-i18n="page.popular")= page.popular
+    .themes-grid#themes-grid
+      .loading(data-i18n="page.loading")= page.loading
+    .load-more-wrap#load-more-wrap(style='display:none')
+      button#btn-load-more.btn.btn-ghost(type='button' data-i18n="page.loadMore")= page.loadMore

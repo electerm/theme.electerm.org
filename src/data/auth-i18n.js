@@ -1,0 +1,162 @@
+export const AUTH_I18N = {
+  en: {
+    login: {
+      title: 'Sign in to theme.electerm.org',
+      subtitle: 'Save and share your electerm themes with the community',
+      signInWithGitHub: 'Sign in with GitHub',
+      signingIn: 'Signing in...',
+      noticeTitle: 'We only use your GitHub profile for authentication.',
+      noticeBody: 'No data is posted on your behalf.',
+      bySigningIn: 'By signing in, you agree to our',
+      termsOfUse: 'Terms of Use',
+      and: 'and',
+      privacyPolicy: 'Privacy Policy'
+    },
+    user: {
+      title: 'My Profile',
+      createNewTheme: 'Create New Theme',
+      logout: 'Logout',
+      myThemes: 'My Themes',
+      likedThemes: 'Liked Themes',
+      loading: 'Loading...',
+      noThemes: 'No themes yet.',
+      createOne: 'Create one!',
+      noLiked: 'No liked themes yet.',
+      browseThemes: 'Browse themes!',
+      public: 'Public',
+      private: 'Private',
+      publish: 'Publish',
+      unpublish: 'Unpublish',
+      copy: 'Copy',
+      edit: 'Edit'
+    },
+    themes: {
+      title: 'Public Themes',
+      newest: 'Newest',
+      popular: 'Popular',
+      loading: 'Loading themes...',
+      loadMore: 'Load More',
+      noThemes: 'No public themes yet. Be the first to share one!',
+      failed: 'Failed to load themes',
+      themesCount: 'themes',
+      usersCount: 'users',
+      likesCount: 'likes'
+    },
+    themeDetail: {
+      loading: 'Loading theme...',
+      notFound: 'Theme ID not found',
+      like: 'Like',
+      unlike: 'Unlike',
+      copyConfig: 'Copy Config',
+      download: 'Download',
+      editInEditor: 'Edit in Editor',
+      themePreview: 'Theme Preview',
+      themeConfig: 'Theme Config',
+      likes: 'likes',
+      failed: 'Failed to load theme'
+    },
+    notFound: {
+      message: 'The page you are looking for does not exist.',
+      goHome: 'Go Home'
+    },
+    toast: {
+      configCopied: 'Config copied!',
+      copyFailed: 'Copy failed',
+      themeImported: 'Theme imported!',
+      themeSaved: 'Theme saved!',
+      themeCreated: 'Theme created!',
+      themePublished: 'Theme published! View it at /themes/',
+      themeUnpublished: 'Theme unpublished',
+      signedIn: 'Signed in! Saving...',
+      signedInRedirect: 'Signed in! Redirecting...',
+      signInToSave: 'Please sign in to save your theme...',
+      signInToLike: 'Please sign in to like themes...',
+      saveFirst: 'Save the theme first',
+      loginFailed: 'Login failed',
+      loginTimeout: 'Login timeout',
+      likeSuccess: 'Liked!',
+      unlikeSuccess: 'Unliked',
+      themeDownloaded: 'Theme downloaded!'
+    }
+  },
+  zh: {
+    login: {
+      title: '登录 theme.electerm.org',
+      subtitle: '保存和分享您的 electerm 主题',
+      signInWithGitHub: '使用 GitHub 登录',
+      signingIn: '登录中...',
+      noticeTitle: '我们仅使用您的 GitHub 个人信息进行认证。',
+      noticeBody: '不会以您的名义发布任何内容。',
+      bySigningIn: '登录即表示您同意我们的',
+      termsOfUse: '使用条款',
+      and: '和',
+      privacyPolicy: '隐私政策'
+    },
+    user: {
+      title: '个人中心',
+      createNewTheme: '创建新主题',
+      logout: '退出登录',
+      myThemes: '我的主题',
+      likedThemes: '喜欢的主题',
+      loading: '加载中...',
+      noThemes: '暂无主题。',
+      createOne: '创建一个！',
+      noLiked: '暂无喜欢的主题。',
+      browseThemes: '浏览主题！',
+      public: '公开',
+      private: '私有',
+      publish: '发布',
+      unpublish: '取消发布',
+      copy: '复制',
+      edit: '编辑'
+    },
+    themes: {
+      title: '公开主题',
+      newest: '最新',
+      popular: '热门',
+      loading: '加载主题中...',
+      loadMore: '加载更多',
+      noThemes: '暂无公开主题。成为第一个分享的人！',
+      failed: '加载主题失败',
+      themesCount: '个主题',
+      usersCount: '个用户',
+      likesCount: '个点赞'
+    },
+    themeDetail: {
+      loading: '加载主题中...',
+      notFound: '未找到主题 ID',
+      like: '点赞',
+      unlike: '取消点赞',
+      copyConfig: '复制配置',
+      download: '下载',
+      editInEditor: '在编辑器中编辑',
+      themePreview: '主题预览',
+      themeConfig: '主题配置',
+      likes: '点赞',
+      failed: '加载主题失败'
+    },
+    notFound: {
+      message: '您要找的页面不存在。',
+      goHome: '返回首页'
+    },
+    toast: {
+      configCopied: '配置已复制！',
+      copyFailed: '复制失败',
+      themeImported: '主题已导入！',
+      themeSaved: '主题已保存！',
+      themeCreated: '主题已创建！',
+      themePublished: '主题已发布！在 /themes/ 查看',
+      themeUnpublished: '主题已取消发布',
+      signedIn: '已登录！保存中...',
+      signedInRedirect: '已登录！跳转中...',
+      signInToSave: '请登录以保存您的主题...',
+      signInToLike: '请登录以点赞主题...',
+      saveFirst: '请先保存主题',
+      loginFailed: '登录失败',
+      loginTimeout: '登录超时',
+      likeSuccess: '已点赞！',
+      unlikeSuccess: '已取消点赞',
+      themeDownloaded: '主题已下载！'
+    }
+  }
+}

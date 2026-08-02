@@ -1,0 +1,47 @@
+extends ../layout.pug
+
+block content
+  section.hero
+    .container
+      .hero-content
+        h1.hero-title
+          span(data-i18n="page.titlePre")= page.titlePre
+          |  
+          span.gradient-text(data-i18n="page.titleHl")= page.titleHl
+          if page.titlePost
+            |  
+            span(data-i18n="page.titlePost")= page.titlePost
+        p.hero-subtitle(data-i18n="page.subtitle")= page.subtitle
+
+  .editor-page#editor
+    .editor-body
+      .editor-panel
+        .editor-toolbar
+          .toolbar-left
+            input#theme-name-input.theme-name-input(type='text' data-i18n-placeholder="page.editor.themeName" placeholder=page.editor.themeName value='My Theme')
+          .toolbar-right
+            button#btn-save.btn.btn-primary(type='button' data-i18n="page.editor.save")= page.editor.save
+            button#btn-publish.btn.btn-secondary(type='button' style='display:none' data-i18n="page.editor.share")= page.editor.share
+            button#btn-copy-config.btn.btn-ghost(type='button' data-i18n="page.editor.copyConfig")= page.editor.copyConfig
+            button#btn-import.btn.btn-ghost(type='button' data-i18n="page.editor.import")= page.editor.import
+            input#file-import(type='file' accept='.txt' style='display:none')
+        .editor-tabs
+          button.tab-btn.active(type='button' data-tab='picker' data-i18n="page.editor.colorPicker")= page.editor.colorPicker
+          button.tab-btn(type='button' data-tab='text' data-i18n="page.editor.textEditor")= page.editor.textEditor
+        .tab-content#tab-picker
+          .color-groups
+            .color-group
+              h4.group-title(data-i18n="page.editor.uiColors")= page.editor.uiColors
+              #ui-colors.color-list
+            .color-group
+              h4.group-title(data-i18n="page.editor.terminalColors")= page.editor.terminalColors
+              #terminal-colors.color-list
+        .tab-content#tab-text(style='display:none')
+          textarea#theme-text.theme-textarea(data-i18n-placeholder="page.editor.textPlaceholder" placeholder=page.editor.textPlaceholder)
+
+      .preview-panel
+        .preview-frame-wrap
+          .phone-frame
+            iframe#demo-frame(src=demoUrl title='electerm demo' allow='clipboard-read; clipboard-write')
+        .preview-footer
+          span#preview-status.preview-status(data-i18n="page.editor.loading")= page.editor.loading

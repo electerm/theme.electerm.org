@@ -1,0 +1,39 @@
+header.site-header
+  .container.header-inner
+    a.brand(href=homePath)
+      img.brand-logo(src="https://electerm.org/electerm.png" alt=site.name width="120" height="42")
+
+    button.mobile-menu-toggle(aria-label=header.mobileMenu aria-expanded="false")
+      span.bar
+      span.bar
+      span.bar
+
+    nav.main-nav
+      ul.nav-list
+        each link in navLinks
+          li.nav-item
+            a.nav-link(href=link.href class=(link.active ? 'active' : '') target=(link.external ? '_blank' : false) rel=(link.external ? 'noopener noreferrer' : false) data-i18n=`nav.${link.key}`)= link.label
+      .nav-actions
+        include lang-switcher.pug
+        a.btn.btn-ghost.header-signin(href=signInUrl data-i18n="header.signIn")= header.signIn
+        .user-menu.hidden
+          button.user-menu-toggle(type="button" aria-haspopup="true" aria-expanded="false")
+            img.user-menu-avatar(src="" alt="" width="32" height="32")
+            span.user-menu-initials
+            svg.user-menu-chevron(width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2")
+              polyline(points="6 9 12 15 18 9")
+          ul.user-menu-dropdown(role="menu" hidden)
+            li
+              a.user-menu-item(href="/user/")
+                svg(width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2")
+                  path(d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2")
+                  circle(cx="12" cy="7" r="4")
+                span(data-i18n="header.profile")= header.profile
+            li.user-menu-divider
+            li
+              a.user-menu-item(href="/api/auth/logout")
+                svg(width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2")
+                  path(d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4")
+                  polyline(points="16 17 21 12 16 7")
+                  line(x1="21" y1="12" x2="9" y2="12")
+                span(data-i18n="header.logout")= header.logout

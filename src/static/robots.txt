@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /user/
+Disallow: /api/
+
+Sitemap: https://theme.electerm.org/sitemap.xml

@@ -1,0 +1,66 @@
+// === Buttons ===
+
+.btn
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  gap: 8px
+  padding: 10px 20px
+  font-size: 0.95rem
+  font-weight: 600
+  border-radius: var(--radius)
+  transition: all var(--transition)
+  white-space: nowrap
+  cursor: pointer
+  border: 1px solid transparent
+
+.btn-lg
+  padding: 14px 28px
+  font-size: 1.05rem
+
+.btn-sm
+  padding: 6px 14px
+  font-size: 0.85rem
+
+.btn-primary
+  background: var(--brand-600)
+  color: #fff
+
+  &:hover
+    background: var(--brand-700)
+    color: #fff
+    transform: translateY(-1px)
+    box-shadow: var(--shadow-soft)
+
+.btn-secondary
+  background: var(--gray-100)
+  color: var(--gray-700)
+  border-color: var(--border)
+
+  &:hover
+    background: var(--gray-200)
+    border-color: var(--border-hover)
+
+.btn-ghost
+  background: transparent
+  color: var(--text)
+  border-color: var(--border)
+
+  &:hover
+    background: var(--gray-50)
+    border-color: var(--border-hover)
+
+.btn-warning
+  background: #f59e0b
+  color: #fff
+
+  &:hover
+    background: #d97706
+    color: #fff
+
+// Disabled state
+.btn:disabled
+  opacity: 0.45
+  cursor: not-allowed
+  pointer-events: none
+  filter: grayscale(0.4)

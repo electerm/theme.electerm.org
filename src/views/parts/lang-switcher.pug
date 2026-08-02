@@ -1,0 +1,12 @@
+.lang-switcher
+  button.lang-current(type="button" aria-haspopup="true" aria-expanded="false")
+    span.current-lang-name English
+    svg(width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2")
+      polyline(points="6 9 12 15 18 9")
+  ul.lang-dropdown(role="menu" hidden)
+    each loc in localeList
+      li
+        button.lang-option(type="button" data-lang=loc.code class=(loc.code === 'en' ? 'active' : ''))
+          = loc.name
+          svg(width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: " + (loc.code === 'en' ? 'inline' : 'none'))
+            polyline(points="20 6 9 17 4 12")

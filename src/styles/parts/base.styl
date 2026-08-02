@@ -1,0 +1,252 @@
+// === CSS Variables & Reset ===
+
+:root
+  // Brand colors (electerm blue)
+  --brand-50: #eff8ff
+  --brand-100: #dbeefe
+  --brand-200: #bfe2fe
+  --brand-300: #93d0fd
+  --brand-400: #60b5fa
+  --brand-500: #3b9af6
+  --brand-600: #1389fd
+  --brand-700: #1c6fd6
+  --brand-800: #1e5bae
+  --brand-900: #1d4d8a
+
+  // Neutral colors
+  --gray-50: #f9fafb
+  --gray-100: #f3f4f6
+  --gray-200: #e5e7eb
+  --gray-300: #d1d5db
+  --gray-400: #9ca3af
+  --gray-500: #6b7280
+  --gray-600: #4b5563
+  --gray-700: #374151
+  --gray-800: #1f2937
+  --gray-900: #111827
+
+  // Semantic
+  --bg: #ffffff
+  --bg-alt: var(--gray-50)
+  --text: var(--gray-800)
+  --text-muted: var(--gray-500)
+  --border: var(--gray-200)
+  --border-hover: var(--gray-300)
+
+  // Editor-specific dark colors (for editor panel)
+  --editor-bg: #0e0e10
+  --editor-bg-card: #16161a
+  --editor-bg-input: #1e1e24
+  --editor-border: #2a2a30
+  --editor-text: #ddd
+  --editor-text-light: #fff
+  --editor-text-dim: #888
+  --editor-primary: #08c
+  --editor-primary-hover: #0a9fd8
+  --editor-success: #06D6A0
+  --editor-error: #EF476F
+  --editor-warn: #FFD166
+
+  // Gradients
+  --gradient-brand: linear-gradient(135deg, #1389fd 0%, #3b9af6 100%)
+  --gradient-text: linear-gradient(135deg, #1389fd 0%, #3b9af6 100%)
+
+  // Shadows
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.04)
+  --shadow-soft: 0 1px 3px rgba(16, 24, 40, 0.04), 0 10px 28px -10px rgba(16, 24, 40, 0.10)
+  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.04), 0 16px 40px -16px rgba(16, 24, 40, 0.14)
+  --shadow-glow: 0 10px 40px -10px rgba(19, 137, 253, 0.5)
+
+  // Layout
+  --container-max: 1100px
+  --container-wide: 1400px
+  --container-narrow: 760px
+  --header-height: 64px
+  --radius-sm: 6px
+  --radius: 10px
+  --radius-lg: 16px
+  --radius-xl: 24px
+
+  // Transitions
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1)
+  --transition-slow: 0.4s cubic-bezier(0.16, 1, 0.3, 1)
+
+// Reset
+*
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+
+html
+  font-size: 16px
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  scroll-behavior: smooth
+
+body
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif
+  color: var(--text)
+  background: var(--bg)
+  line-height: 1.6
+  min-height: 100vh
+  display: flex
+  flex-direction: column
+
+main
+  flex: 1
+
+a
+  color: var(--brand-600)
+  text-decoration: none
+  transition: color var(--transition)
+
+  &:hover
+    color: var(--brand-700)
+
+img
+  max-width: 100%
+  height: auto
+  display: block
+
+ul, ol
+  list-style: none
+
+input, textarea, button, select
+  font: inherit
+  color: inherit
+
+button
+  cursor: pointer
+  border: none
+  background: none
+
+h1, h2, h3, h4, h5, h6
+  font-weight: 700
+  line-height: 1.3
+  color: var(--gray-900)
+
+// Container
+.container
+  width: 100%
+  max-width: var(--container-max)
+  margin: 0 auto
+  padding: 0 24px
+
+.container-wide
+  max-width: var(--container-wide)
+
+.container-narrow
+  max-width: var(--container-narrow)
+
+// Gradient text
+.gradient-text
+  background: var(--gradient-text)
+  -webkit-background-clip: text
+  background-clip: text
+  -webkit-text-fill-color: transparent
+  color: transparent
+
+// Section spacing
+section
+  padding: 64px 0
+
+// Section header
+.section-header
+  text-align: center
+  margin-bottom: 48px
+
+.section-title
+  font-size: 2rem
+  font-weight: 800
+  letter-spacing: -0.02em
+
+.section-subtitle
+  margin-top: 8px
+  color: var(--text-muted)
+  font-size: 1.1rem
+
+// Page header
+.page-header
+  text-align: center
+  padding: 80px 0 40px
+
+.page-title
+  font-size: 2.5rem
+  font-weight: 800
+  letter-spacing: -0.03em
+
+.page-subtitle
+  margin-top: 12px
+  color: var(--text-muted)
+  font-size: 1.15rem
+  max-width: 600px
+  margin-left: auto
+  margin-right: auto
+
+// Hidden utility
+.hidden
+  display: none !important
+
+// Loading
+.loading
+  padding: 40px
+  text-align: center
+  color: var(--text-muted)
+
+// Spinner
+.spinner
+  width: 32px
+  height: 32px
+  border: 3px solid var(--gray-200)
+  border-top-color: var(--brand-600)
+  border-radius: 50%
+  animation: spin 0.8s linear infinite
+
+.spinner-sm
+  width: 16px
+  height: 16px
+  border-width: 2px
+
+@keyframes spin
+  to
+    transform: rotate(360deg)
+
+// Animations
+@keyframes fade-up
+  from
+    opacity: 0
+    transform: translateY(14px)
+  to
+    opacity: 1
+    transform: translateY(0)
+
+@keyframes fade-in
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+// Toast
+.toast
+  position: fixed
+  bottom: 24px
+  left: 50%
+  transform: translateX(-50%)
+  background: var(--gray-900)
+  color: #fff
+  padding: 12px 24px
+  border-radius: var(--radius)
+  box-shadow: var(--shadow-card)
+  z-index: 9999
+  opacity: 0
+  pointer-events: none
+  transition: opacity 0.3s
+  font-size: 14px
+  &.show
+    opacity: 1
+  &.error
+    border: 2px solid var(--brand-600)
+    background: #1a1a2e
+  &.success
+    border: 2px solid #06D6A0
+    background: #0d2818

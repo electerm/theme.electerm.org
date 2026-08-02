@@ -1,0 +1,17 @@
+extends ../layout.pug
+
+block content
+  .legal-page
+    .container.legal-container
+      h1.legal-title(data-i18n="page.title")= page.title
+      p.legal-updated(data-i18n="page.lastUpdated")= page.lastUpdated
+      p.legal-intro(data-i18n="page.intro")= page.intro
+
+      each section, i in page.sections
+        section.legal-section
+          h2.legal-section-title(data-i18n=`page.sections.${i}.heading`)= section.heading
+          each para, j in section.body
+            p.legal-section-body(data-i18n=`page.sections.${i}.body.${j}`)= para
+
+      .legal-back
+        a.btn.btn-ghost(href=homePath data-i18n="page.backHome")= page.backHome || 'Back to Editor'

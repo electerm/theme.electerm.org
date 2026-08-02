@@ -1,0 +1,49 @@
+# theme.electerm.org
+
+> Create, preview and share custom themes for electerm terminal.
+
+theme.electerm.org is a free theme editor for electerm terminal. Users can create custom theme color configs with a live preview, save themes to the cloud, share them with the community, browse public themes, like themes, and copy theme configs to clipboard.
+
+## Key Features
+- Free electerm theme editor with live preview
+- Save themes to cloud (GitHub login required)
+- Browse community-created public themes
+- Like themes and see like counts
+- Copy theme config to clipboard
+- Share themes to social media (Twitter, Facebook, etc.)
+- Each user can save up to 10 themes
+- Supports en/cn locales
+
+## Pages
+- / — Home page with theme editor and live preview
+- /themes/ — Browse all public themes with preview cards (shows author)
+- /theme/ — Theme detail page (view, like, copy, share)
+- /user/ — User profile (owned themes and liked themes)
+- /login/ — GitHub login (accepts ?redirect= to return after sign-in)
+- /privacy/ — Privacy Policy
+- /terms-of-use/ — Terms of Use
+
+## API Endpoints
+- POST /api/themes — Create a new theme
+- GET /api/themes — List public themes
+- GET /api/themes/:id — Get theme detail
+- PUT /api/themes/:id — Update theme
+- DELETE /api/themes/:id — Delete theme
+- POST /api/themes/:id/like — Like a theme
+- DELETE /api/themes/:id/like — Unlike a theme
+- GET /api/auth/login-url — Get GitHub OAuth URL
+- GET /api/github-login-callback — GitHub OAuth callback
+- GET /api/auth/logout — Logout
+- GET /api/auth/me — Get current user info
+
+## Related Links
+- electerm Desktop: https://electerm.org
+- electerm Online: https://cloud.electerm.org
+- electerm Demo: https://demo.electerm.org
+- GitHub: https://github.com/electerm/electerm
+- Sponsor: https://electerm.org/sponsor-electerm/
+- FAQ: https://electerm.org/faq/
+- Videos: https://electerm.org/videos/
+
+## Contact
+- GitHub: https://github.com/electerm/electerm

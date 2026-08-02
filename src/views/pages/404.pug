@@ -1,0 +1,8 @@
+extends ../layout.pug
+
+block content
+  .not-found-page
+    .not-found-content
+      h1.not-found-code 404
+      p.not-found-message(data-i18n="page.message")= page.message
+      a.btn.btn-primary(href=homePath data-i18n="page.goHome")= page.goHome

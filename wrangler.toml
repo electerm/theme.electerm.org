@@ -1,0 +1,25 @@
+name = "theme-electerm"
+main = "src/worker/index.js"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# D1 Database
+[[d1_databases]]
+binding = "DB"
+database_name = "theme-electerm-db"
+database_id = "1594fc51-1690-4749-913b-0c0b95808e9a"
+
+# Static assets
+[assets]
+directory = "./public"
+binding = "ASSETS"
+not_found_handling = "none"
+
+# Environment variables
+[vars]
+ENVIRONMENT = "production"
+ADMIN_GITHUB_HANDLES = "zxdong262"
+SITE_URL = "https://theme.electerm.org"
+TOKEN_EXPIRED_TIME = "120y"
+GITHUB_CLIENT_ID = "Ov23li34sl4ewYQp2Fld"
+GITHUB_CALLBACK_URL = "https://theme.electerm.org/api/github-login-callback"

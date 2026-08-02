@@ -1,0 +1,15 @@
+doctype html
+html(lang=htmlLang)
+  head
+    include parts/head.pug
+  body(data-demo-url=demoUrl data-is-dev=isDev ? 'true' : 'false')
+    include parts/header.pug
+    main#main.main
+      block content
+    .toast#toast
+    include parts/footer.pug
+    //- Embed all locale i18n data for client-side language switching
+    script(type="application/json" id="page-i18n-data") !{i18nData}
+    if jsPath
+      script(type="module" src=jsPath)
+    block scripts

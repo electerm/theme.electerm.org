@@ -1,0 +1,34 @@
+extends ../layout.pug
+
+block content
+  .theme-detail-page
+    .loading#detail-loading(data-i18n="page.loading")= page.loading
+    .theme-detail-content#detail-content(style='display:none')
+      .detail-header
+        h1#detail-name
+        .detail-meta
+          .detail-owner
+            img#detail-owner-avatar.owner-avatar
+            span#detail-owner-name
+          .detail-stats
+            span.detail-stat
+              span.stat-icon ❤
+              span#detail-like-count 0
+              span.stat-label(data-i18n="page.likes")= page.likes
+        .detail-actions
+          button#btn-like.btn.btn-primary(type='button' data-i18n="page.like")= page.like
+          button#btn-copy.btn.btn-secondary(type='button' data-i18n="page.copyConfig")= page.copyConfig
+          button#btn-download.btn.btn-secondary(type='button' data-i18n="page.download")= page.download
+          button#btn-edit.btn.btn-secondary(type='button' data-i18n="page.editInEditor")= page.editInEditor
+          .share-buttons
+            button#btn-share-twitter.btn.btn-ghost(type='button' title='Share on Twitter') 𝕏
+            button#btn-share-facebook.btn.btn-ghost(type='button' title='Share on Facebook') f
+      .detail-preview
+        .preview-header
+          span.preview-label(data-i18n="page.themePreview")= page.themePreview
+        .preview-frame-wrap
+          .phone-frame.phone-frame-sm
+            iframe#detail-demo-frame(title='electerm demo' allow='clipboard-read; clipboard-write')
+      .detail-config
+        h3(data-i18n="page.themeConfig")= page.themeConfig
+        pre#detail-config-text.config-text
