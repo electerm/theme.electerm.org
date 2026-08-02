@@ -3,7 +3,7 @@
  */
 import { defaultTheme, convertThemeToText, convertTheme, getUIColorKeys, getTerminalColorKeys } from '../lib/theme.js'
 import { initIframeControl, applyTheme, isIframeReady } from '../lib/iframe-control.js'
-import { loginWithPopup, isLoggedIn, fetchUser } from '../lib/auth.js'
+import { loginWithPopup, isLoggedIn } from '../lib/auth.js'
 import { apiPost, apiPut } from '../lib/api.js'
 import { toast, copyToClipboard } from '../lib/ui.js'
 import { initHeader } from '../parts/header.js'
@@ -13,63 +13,16 @@ let currentTheme = defaultTheme()
 let editingThemeId = null
 let activeTab = 'picker'
 
-const RESUME_KEY = 'theme-electerm:editor-resume'
-
-/**
- * Stash the in-progress theme before navigating away (e.g. to the login
- * page) so we can resume editing — and finish saving — on return.
- */
-function stashEditor () {
-  try {
-    sessionStorage.setItem(RESUME_KEY, JSON.stringify({
-      theme: currentTheme,
-      editingThemeId
-    }))
-  } catch {}
-}
-
-/**
- * Restore a stashed in-progress theme (one-shot). Returns null if none.
- */
-function resumeEditor () {
-  let raw
-  try {
-    raw = sessionStorage.getItem(RESUME_KEY)
-  } catch {
-    return null
-  }
-  if (!raw) return null
-  try {
-    sessionStorage.removeItem(RESUME_KEY)
-    return JSON.parse(raw)
-  } catch {
-    return null
-  }
-}
-
 function init () {
   // Initialize header (i18n, mobile menu, user menu)
   initHeader()
-
-  // Restore an in-progress theme saved before redirecting to login
-  const resumed = resumeEditor()
 
   // Check if editing an existing theme (via URL params)
   const params = new URLSearchParams(window.location.search)
   const editId = params.get('edit')
   const importData = params.get('import')
 
-  if (resumed) {
-    // Prefer the stashed (possibly modified) theme over re-fetching
-    currentTheme = resumed.theme || currentTheme
-    editingThemeId = resumed.editingThemeId || null
-    // Returned from the login page — complete the pending save if now signed in
-    fetchUser()
-      .then((user) => {
-        if (user) handleSave()
-      })
-      .catch(() => {})
-  } else if (importData) {
+  if (importData) {
     try {
       const data = JSON.parse(decodeURIComponent(importData))
       currentTheme = {
@@ -80,7 +33,7 @@ function init () {
     } catch {}
   }
 
-  if (editId && !resumed) {
+  if (editId) {
     // Fetch theme data for editing
     fetch(`/api/themes/${editId}`)
       .then((r) => r.json())
@@ -301,9 +254,10 @@ async function handleAiGenerate () {
   }
 
   // AI generation is server-side and gated by auth — sign in first if needed.
+  // Opens the /login page in a popup so the editor state is preserved.
   if (!isLoggedIn()) {
     try {
-      await loginWithPopup('/')
+      await loginWithPopup(window.location.pathname + window.location.search)
     } catch (err) {
       toast(err.message || t('page.editor.aiLoginRequired'), 'error')
       return
@@ -373,14 +327,17 @@ function loadThemeIntoEditor (theme) {
 }
 
 async function handleSave () {
-  // Not logged in — go to the dedicated login page (with the terms
-  // agreement) instead of auto-opening the OAuth popup. Stash the
-  // in-progress theme so we can finish saving once signed in.
+  // Not logged in — open the /login page in a popup (so the user sees the
+  // terms + login button) instead of redirecting away from the editor. The
+  // editor state stays in memory and we continue saving after sign-in.
   if (!isLoggedIn()) {
-    stashEditor()
-    const back = window.location.pathname + window.location.search
-    window.location.href = `/login/?redirect=${encodeURIComponent(back)}`
-    return
+    try {
+      await loginWithPopup(window.location.pathname + window.location.search)
+    } catch (err) {
+      toast(err.message || t('toast.loginFailed'), 'error')
+      return
+    }
+    if (!isLoggedIn()) return
   }
 
   try {

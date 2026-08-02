@@ -36,8 +36,10 @@ export function isLoggedIn () {
 }
 
 /**
- * Open GitHub login in a popup window.
- * Returns a promise that resolves when login is complete.
+ * Open the /login page in a popup window. The page shows the terms +
+ * "Sign in with GitHub" button; clicking it navigates the popup through
+ * GitHub OAuth, and the popup-done relay posts the result back here.
+ * Returns a promise that resolves with the user when login is complete.
  */
 export function loginWithPopup (redirect = '/') {
   if (_loginPromise) return _loginPromise
@@ -48,7 +50,16 @@ export function loginWithPopup (redirect = '/') {
     const left = window.screenX + (window.outerWidth - width) / 2
     const top = window.screenY + (window.outerHeight - height) / 2
 
-    let popup = null
+    const popup = window.open(
+      `/login/?redirect=${encodeURIComponent(redirect)}`,
+      'theme-login',
+      `width=${width},height=${height},left=${left},top=${top}`
+    )
+    if (!popup) {
+      _loginPromise = null
+      reject(new Error('Popup blocked. Please allow popups for this site.'))
+      return
+    }
 
     async function handleMessage (e) {
       const msg = e.data
@@ -83,26 +94,6 @@ export function loginWithPopup (redirect = '/') {
       }
       reject(new Error('Login timeout'))
     }, 5 * 60 * 1000)
-
-    // Get OAuth URL and open popup
-    fetch(`/api/auth/login-url?redirect=${encodeURIComponent(redirect)}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (!data.url) {
-          _loginPromise = null
-          reject(new Error('Failed to get login URL'))
-          return
-        }
-        popup = window.open(data.url, 'github-login', `width=${width},height=${height},left=${left},top=${top}`)
-        if (!popup) {
-          _loginPromise = null
-          reject(new Error('Popup blocked. Please allow popups for this site.'))
-        }
-      })
-      .catch((err) => {
-        _loginPromise = null
-        reject(err)
-      })
   })
 
   return _loginPromise
