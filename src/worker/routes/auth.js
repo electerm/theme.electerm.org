@@ -9,7 +9,10 @@ import {
   sessionCookie,
   oauthStateCookie,
   clearOauthStateCookie,
-  OAUTH_STATE_COOKIE
+  adminLoginCookie,
+  clearAdminLoginCookie,
+  OAUTH_STATE_COOKIE,
+  ADMIN_LOGIN_COOKIE
 } from '../auth/session.js'
 import { redirectWithCookies, siteUrl, popupDoneUrl, jsonResponse } from '../http.js'
 import { getRow } from '../db.js'
@@ -96,15 +99,31 @@ authRouter.get('/login-url', (c) => {
 })
 
 /**
+ * Get GitHub OAuth URL for admin login.
+ * Sets an extra cookie so the callback knows to enforce admin role and
+ * redirect to /admin instead of /user.
+ */
+authRouter.get('/login-admin-url', (c) => {
+  const state = crypto.randomUUID() + ':/admin'
+  const url = buildAuthUrl(c.env, state)
+  const secure = c.env.ENVIRONMENT === 'production'
+  const res = jsonResponse({ url })
+  res.headers.append('Set-Cookie', oauthStateCookie(state, secure))
+  res.headers.append('Set-Cookie', adminLoginCookie(secure))
+  return res
+})
+
+/**
  * GitHub OAuth callback handler.
  */
 export async function githubLoginCallback (c) {
   const code = c.req.query('code')
   const state = c.req.query('state')
   const cookieState = readCookie(c.req.raw, OAUTH_STATE_COOKIE)
+  const isAdminLogin = !!readCookie(c.req.raw, ADMIN_LOGIN_COOKIE)
   const base = siteUrl(c.env)
   const secure = c.env.ENVIRONMENT === 'production'
-  const clearStateCookies = [clearOauthStateCookie(secure)]
+  const clearStateCookies = [clearOauthStateCookie(secure), clearAdminLoginCookie(secure)]
 
   // Extract redirect from state
   let redirect = '/'
@@ -118,7 +137,7 @@ export async function githubLoginCallback (c) {
 
   if (!code || !state || !cookieState || state !== cookieState) {
     return redirectWithCookies(
-      popupDoneUrl(base, { status: 'error', kind: 'login', redirect, error: 'auth' }),
+      popupDoneUrl(base, { status: 'error', kind: 'login', redirect: isAdminLogin ? '/login-admin' : redirect, error: 'auth' }),
       clearStateCookies
     )
   }
@@ -127,6 +146,21 @@ export async function githubLoginCallback (c) {
     const token = await exchangeCode(c.env, code)
     const profile = await getUserInfo(token)
     const { identity } = await findOrCreateUser(c.env, profile)
+
+    // Admin login flow — require admin role, then redirect to /admin
+    if (isAdminLogin) {
+      if (identity.role !== 'admin') {
+        return redirectWithCookies(
+          popupDoneUrl(base, { status: 'error', kind: 'login', redirect: '/login-admin', error: 'denied' }),
+          clearStateCookies
+        )
+      }
+      const session = await signSession(c.env, identity)
+      return redirectWithCookies(
+        popupDoneUrl(base, { status: 'ok', kind: 'login', redirect: '/admin' }),
+        [sessionCookie(session, secure), ...clearStateCookies]
+      )
+    }
 
     const userRow = await getRow(c.env.DB, 'SELECT status FROM users WHERE id = ?', identity.id)
     if (userRow?.status === 'disabled') {
@@ -144,7 +178,7 @@ export async function githubLoginCallback (c) {
   } catch (e) {
     console.error('[auth] FAILED:', String(e))
     return redirectWithCookies(
-      popupDoneUrl(base, { status: 'error', kind: 'login', redirect, error: 'auth' }),
+      popupDoneUrl(base, { status: 'error', kind: 'login', redirect: isAdminLogin ? '/login-admin' : redirect, error: 'auth' }),
       clearStateCookies
     )
   }

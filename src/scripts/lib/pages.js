@@ -29,6 +29,8 @@ export function getPageRoutes () {
     { segments: ['theme'], template: 'pages/theme-detail', pageKey: 'theme-detail', jsPage: 'theme-detail', outputFile: 'theme/index.html' },
     { segments: ['user'], template: 'pages/user', pageKey: 'user', jsPage: 'user', outputFile: 'user/index.html' },
     { segments: ['login'], template: 'pages/login', pageKey: 'login', jsPage: 'login', outputFile: 'login/index.html' },
+    { segments: ['login-admin'], template: 'pages/login-admin', pageKey: 'login-admin', jsPage: 'login', outputFile: 'login-admin/index.html' },
+    { segments: ['admin'], template: 'pages/admin', pageKey: 'admin', jsPage: 'admin', outputFile: 'admin/index.html' },
     { segments: ['privacy'], template: 'pages/legal', pageKey: 'privacy', jsPage: 'legal', outputFile: 'privacy/index.html' },
     { segments: ['terms-of-use'], template: 'pages/legal', pageKey: 'terms-of-use', jsPage: 'legal', outputFile: 'terms-of-use/index.html' },
     { segments: ['404'], template: 'pages/404', pageKey: '404', jsPage: '404', outputFile: '404.html' }
@@ -156,6 +158,18 @@ function buildPageData (route) {
         githubLoginApiUrl: '/api/auth/login-url'
       }
 
+    case 'login-admin':
+      return {
+        ...AUTH_I18N[locale].loginAdmin,
+        githubLoginApiUrl: '/api/auth/login-admin-url',
+        homeUrl: '/'
+      }
+
+    case 'admin':
+      return {
+        ...AUTH_I18N[locale].admin
+      }
+
     case 'privacy':
     case 'terms-of-use':
       return {
@@ -208,6 +222,12 @@ function buildPageI18nData (loc, route) {
     case 'login':
       return { ...AUTH_I18N[loc].login }
 
+    case 'login-admin':
+      return { ...AUTH_I18N[loc].loginAdmin }
+
+    case 'admin':
+      return { ...AUTH_I18N[loc].admin }
+
     case 'privacy':
     case 'terms-of-use':
       return { ...LEGAL_I18N[loc][route.pageKey] }
@@ -231,6 +251,7 @@ export function getAllRoutes () {
       if (route.pageKey === '404') return false
       if (route.pageKey === 'user') return false
       if (route.pageKey === 'login') return false
+      if (route.pageKey === 'login-admin' || route.pageKey === 'admin') return false
       return true
     })
     .map((route) => ({

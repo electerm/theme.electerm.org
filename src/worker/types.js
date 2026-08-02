@@ -4,6 +4,7 @@
 
 export const SESSION_COOKIE = 'theme_electerm_session'
 export const OAUTH_STATE_COOKIE = 'theme_electerm_oauth_state'
+export const ADMIN_LOGIN_COOKIE = 'theme_electerm_admin_login'
 
 export function isSecure (env) {
   return env.ENVIRONMENT === 'production'

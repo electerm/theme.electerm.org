@@ -2,7 +2,8 @@
  * Main Cloudflare Worker entry point.
  *
  * Architecture:
- * - /api/*  → Hono API router (auth, me, themes, meta)
+ * - /api/*  → Hono API router (auth, me, themes, meta, admin)
+ * - /admin, /login-admin → admin guard (session check) → serve static
  * - /user   → user guard (session check) → serve static
  * - /*      → static assets (built HTML pages)
  */
@@ -28,6 +29,26 @@ app.get('/health', (c) => c.json({ ok: true, env: c.env.ENVIRONMENT }))
 
 // API routes
 app.route('/api', api)
+
+// ── Admin guard ───────────────────────────────────────────────
+async function adminGuard (c) {
+  const token = readCookie(c.req.raw, SESSION_COOKIE)
+  if (!token) return c.redirect(new URL('/login-admin', c.req.url).toString())
+
+  const identity = await verifySession(c.env, token)
+  if (!identity) return c.redirect(new URL('/login-admin', c.req.url).toString())
+
+  const row = await getRow(c.env.DB, 'SELECT role, status FROM users WHERE id = ?', identity.id)
+  if (!row || row.status === 'disabled' || row.role !== 'admin') {
+    return c.redirect(new URL('/login-admin?error=denied', c.req.url).toString())
+  }
+
+  // Serve static admin page
+  return c.env.ASSETS.fetch(c.req.raw)
+}
+
+app.get('/admin', adminGuard)
+app.get('/admin/', adminGuard)
 
 // ── User guard ────────────────────────────────────────────────
 async function userGuard (c) {

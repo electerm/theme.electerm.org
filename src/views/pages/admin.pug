@@ -1,0 +1,74 @@
+extends ../layout.pug
+
+block content
+  section.admin-page
+    .container
+      .admin-header
+        .admin-header-text
+          h1.admin-title(data-i18n="page.title")= page.title
+          p.admin-subtitle(data-i18n="page.subtitle")= page.subtitle
+        button.btn.btn-ghost#admin-logout-btn(type="button" data-i18n="page.btnLogout")= page.btnLogout
+
+      //- Stats cards
+      .admin-stats
+        .stat-card
+          .stat-value#stat-users —
+          .stat-label(data-i18n="page.statUsers")= page.statUsers
+        .stat-card
+          .stat-value#stat-themes —
+          .stat-label(data-i18n="page.statThemes")= page.statThemes
+        .stat-card
+          .stat-value#stat-public —
+          .stat-label(data-i18n="page.statPublic")= page.statPublic
+        .stat-card
+          .stat-value#stat-likes —
+          .stat-label(data-i18n="page.statLikes")= page.statLikes
+
+      //- Tabs
+      .admin-tabs
+        button.admin-tab.active#tab-users(type="button" data-tab="users" data-i18n="page.tabUsers")= page.tabUsers
+        button.admin-tab#tab-themes(type="button" data-tab="themes" data-i18n="page.tabThemes")= page.tabThemes
+
+      //- Users panel
+      .admin-tab-panel.active#panel-users
+        .admin-table-wrap.hidden#users-table-wrap
+          table.admin-table
+            thead
+              tr
+                th(data-i18n="page.colUserName")= page.colUserName
+                th(data-i18n="page.colUserEmail")= page.colUserEmail
+                th(data-i18n="page.colUserRole")= page.colUserRole
+                th(data-i18n="page.colUserStatus")= page.colUserStatus
+                th(data-i18n="page.colUserThemes")= page.colUserThemes
+                th(data-i18n="page.colUserLikes")= page.colUserLikes
+                th(data-i18n="page.colUserCreated")= page.colUserCreated
+                th(data-i18n="page.colUserActions")= page.colUserActions
+            tbody#users-body
+        .admin-loading#users-loading
+          .spinner
+          p(data-i18n="page.loading")= page.loading
+        .admin-empty.hidden#users-empty
+          p(data-i18n="page.noUsers")= page.noUsers
+        .admin-error.hidden#users-error
+          p(data-i18n="page.loadError")= page.loadError
+
+      //- Themes panel
+      .admin-tab-panel#panel-themes
+        .admin-table-wrap.hidden#themes-table-wrap
+          table.admin-table
+            thead
+              tr
+                th(data-i18n="page.colThemeName")= page.colThemeName
+                th(data-i18n="page.colThemeAuthor")= page.colThemeAuthor
+                th(data-i18n="page.colThemeStatus")= page.colThemeStatus
+                th(data-i18n="page.colThemeLikes")= page.colThemeLikes
+                th(data-i18n="page.colThemeCreated")= page.colThemeCreated
+                th(data-i18n="page.colThemeActions")= page.colThemeActions
+            tbody#themes-body
+        .admin-loading#themes-loading
+          .spinner
+          p(data-i18n="page.loading")= page.loading
+        .admin-empty.hidden#themes-empty
+          p(data-i18n="page.noThemes")= page.noThemes
+        .admin-error.hidden#themes-error
+          p(data-i18n="page.loadError")= page.loadError

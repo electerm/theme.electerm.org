@@ -6,6 +6,7 @@ import { authRouter, githubLoginCallback } from './auth.js'
 import { meRouter } from './me.js'
 import { themesRouter } from './themes.js'
 import { metaRouter } from './meta.js'
+import { adminRouter } from './admin.js'
 
 export const api = new Hono()
 
@@ -23,3 +24,6 @@ api.route('/themes', themesRouter)
 
 // Meta info
 api.route('/meta', metaRouter)
+
+// Admin dashboard
+api.route('/admin', adminRouter)

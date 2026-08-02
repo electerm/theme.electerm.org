@@ -12,6 +12,63 @@ export const AUTH_I18N = {
       and: 'and',
       privacyPolicy: 'Privacy Policy'
     },
+    loginAdmin: {
+      title: 'Admin Login',
+      subtitle: 'Restricted access — authorized personnel only',
+      signInWithGitHub: 'Sign in with GitHub',
+      backToHome: 'Back to home',
+      errorDenied: 'Access denied. Your GitHub handle is not authorized as admin.',
+      errorAuth: 'Authentication failed. Please try again.'
+    },
+    admin: {
+      title: 'Admin Dashboard',
+      subtitle: 'Manage users and themes',
+      btnLogout: 'Sign out',
+      // Stats
+      statUsers: 'Users',
+      statThemes: 'Themes',
+      statPublic: 'Public',
+      statLikes: 'Likes',
+      // Tabs
+      tabUsers: 'Users',
+      tabThemes: 'Themes',
+      // User columns
+      colUserName: 'Name',
+      colUserEmail: 'Email',
+      colUserRole: 'Role',
+      colUserStatus: 'Status',
+      colUserThemes: 'Themes',
+      colUserLikes: 'Likes',
+      colUserCreated: 'Joined',
+      colUserActions: 'Actions',
+      // Theme columns
+      colThemeName: 'Theme',
+      colThemeAuthor: 'Author',
+      colThemeStatus: 'Visibility',
+      colThemeLikes: 'Likes',
+      colThemeCreated: 'Created',
+      colThemeActions: 'Actions',
+      // Actions
+      btnDisable: 'Disable',
+      btnEnable: 'Enable',
+      btnDelete: 'Delete',
+      btnView: 'View',
+      // Status
+      statusActive: 'Active',
+      statusDisabled: 'Disabled',
+      roleAdmin: 'Admin',
+      roleUser: 'User',
+      visibilityPublic: 'Public',
+      visibilityPrivate: 'Private',
+      // Empty / loading / error
+      noUsers: 'No users found.',
+      noThemes: 'No themes found.',
+      loading: 'Loading...',
+      loadError: 'Failed to load data. Please try again.',
+      // Confirm
+      deleteUserConfirm: 'Are you sure you want to delete this user? This also deletes all their themes.',
+      deleteThemeConfirm: 'Are you sure you want to delete this theme?'
+    },
     user: {
       title: 'My Profile',
       createNewTheme: 'Create New Theme',
@@ -91,6 +148,63 @@ export const AUTH_I18N = {
       termsOfUse: '使用条款',
       and: '和',
       privacyPolicy: '隐私政策'
+    },
+    loginAdmin: {
+      title: '管理员登录',
+      subtitle: '受限访问 — 仅限授权人员',
+      signInWithGitHub: '使用 GitHub 登录',
+      backToHome: '返回首页',
+      errorDenied: '访问被拒绝。您的 GitHub 账号未被授权为管理员。',
+      errorAuth: '认证失败，请重试。'
+    },
+    admin: {
+      title: '管理后台',
+      subtitle: '管理用户与主题',
+      btnLogout: '退出登录',
+      // Stats
+      statUsers: '用户',
+      statThemes: '主题',
+      statPublic: '公开',
+      statLikes: '点赞',
+      // Tabs
+      tabUsers: '用户',
+      tabThemes: '主题',
+      // User columns
+      colUserName: '名称',
+      colUserEmail: '邮箱',
+      colUserRole: '角色',
+      colUserStatus: '状态',
+      colUserThemes: '主题',
+      colUserLikes: '点赞',
+      colUserCreated: '加入时间',
+      colUserActions: '操作',
+      // Theme columns
+      colThemeName: '主题',
+      colThemeAuthor: '作者',
+      colThemeStatus: '可见性',
+      colThemeLikes: '点赞',
+      colThemeCreated: '创建时间',
+      colThemeActions: '操作',
+      // Actions
+      btnDisable: '禁用',
+      btnEnable: '启用',
+      btnDelete: '删除',
+      btnView: '查看',
+      // Status
+      statusActive: '正常',
+      statusDisabled: '已禁用',
+      roleAdmin: '管理员',
+      roleUser: '用户',
+      visibilityPublic: '公开',
+      visibilityPrivate: '私有',
+      // Empty / loading / error
+      noUsers: '暂无用户。',
+      noThemes: '暂无主题。',
+      loading: '加载中...',
+      loadError: '加载数据失败，请重试。',
+      // Confirm
+      deleteUserConfirm: '确定要删除该用户吗？这将同时删除其所有主题。',
+      deleteThemeConfirm: '确定要删除该主题吗？'
     },
     user: {
       title: '个人中心',

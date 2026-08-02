@@ -2,7 +2,7 @@
  * Session management using JWT (jose library).
  */
 import { SignJWT, jwtVerify } from 'jose'
-import { SESSION_COOKIE, OAUTH_STATE_COOKIE, readCookie } from '../types.js'
+import { SESSION_COOKIE, OAUTH_STATE_COOKIE, ADMIN_LOGIN_COOKIE, readCookie } from '../types.js'
 
 const MAX_AGE = 60 * 60 * 24 * 30 // 30 days
 
@@ -56,4 +56,14 @@ export function clearOauthStateCookie (secure) {
   return `${OAUTH_STATE_COOKIE}=; ${flags}`
 }
 
-export { SESSION_COOKIE, OAUTH_STATE_COOKIE, readCookie }
+export function adminLoginCookie (secure) {
+  const flags = `Path=/; HttpOnly; SameSite=Lax; Max-Age=600${secure ? '; Secure' : ''}`
+  return `${ADMIN_LOGIN_COOKIE}=1; ${flags}`
+}
+
+export function clearAdminLoginCookie (secure) {
+  const flags = `Path=/; HttpOnly; SameSite=Lax; Max-Age=0${secure ? '; Secure' : ''}`
+  return `${ADMIN_LOGIN_COOKIE}=; ${flags}`
+}
+
+export { SESSION_COOKIE, OAUTH_STATE_COOKIE, ADMIN_LOGIN_COOKIE, readCookie }
