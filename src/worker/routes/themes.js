@@ -5,6 +5,10 @@ import { Hono } from 'hono'
 import { requireAuth, optionalAuth } from '../middleware/auth.js'
 import { getRow, allRows, runStmt } from '../db.js'
 import { generateId, jsonResponse } from '../http.js'
+import { callAi, resolveAiModel, normalizeAiTheme } from '../ai-theme.js'
+
+const AI_API_BASE_URL_DEFAULT = 'https://ai.electerm.org/api/electerm-online'
+const AI_FALLBACK_MODEL = 'mistral-small-latest'
 
 export const themesRouter = new Hono()
 
@@ -109,6 +113,56 @@ themesRouter.post('/', requireAuth, async (c) => {
 
   const row = await getRow(c.env.DB, 'SELECT * FROM themes WHERE id = ?', themeId)
   return jsonResponse({ theme: serializeTheme(row, user.id) })
+})
+
+// ── Generate theme from natural language (AI) ─────────────────
+themesRouter.post('/ai-create', requireAuth, async (c) => {
+  let body
+  try {
+    body = await c.req.json()
+  } catch {
+    body = {}
+  }
+
+  const description = typeof body?.description === 'string' ? body.description.trim() : ''
+  if (!description) {
+    return jsonResponse({ error: 'Description is required' }, 400)
+  }
+  if (description.length > 500) {
+    return jsonResponse({ error: 'Description too long (max 500 chars)' }, 400)
+  }
+
+  const apiKey = c.env.ELECTERM_ONLINE_API_KEY
+  if (!apiKey) {
+    return jsonResponse({ error: 'AI service not configured' }, 503)
+  }
+
+  const base = (c.env.AI_API_BASE_URL || AI_API_BASE_URL_DEFAULT).replace(/\/+$/, '')
+
+  let model
+  try {
+    model = await resolveAiModel({
+      fetchImpl: fetch,
+      apiKey,
+      base,
+      envModel: c.env.AI_MODEL
+    })
+  } catch {
+    model = c.env.AI_MODEL || AI_FALLBACK_MODEL
+  }
+
+  let aiText
+  try {
+    aiText = await callAi({ fetchImpl: fetch, base, apiKey, model, description })
+  } catch (e) {
+    console.error('[ai-create] callAi failed:', String(e))
+    return jsonResponse({ error: 'Failed to reach AI service' }, 502)
+  }
+
+  // normalizeAiTheme always returns a schema-conformant theme (fills
+  // defaults / fixes invalid values), so the client always gets valid data.
+  const theme = normalizeAiTheme(aiText)
+  return jsonResponse({ theme })
 })
 
 // ── Update theme ──────────────────────────────────────────────

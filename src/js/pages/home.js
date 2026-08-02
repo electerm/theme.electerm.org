@@ -118,17 +118,9 @@ function init () {
     currentTheme.name = nameInput.value
   })
 
-  // Tab switching
+  // Tab switching (Color Picker / Text Editor / AI)
   document.querySelectorAll('.tab-btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      activeTab = btn.dataset.tab
-      document.querySelectorAll('.tab-btn').forEach((b) => b.classList.toggle('active', b === btn))
-      document.getElementById('tab-picker').style.display = activeTab === 'picker' ? '' : 'none'
-      document.getElementById('tab-text').style.display = activeTab === 'text' ? '' : 'none'
-      if (activeTab === 'text') {
-        document.getElementById('theme-text').value = convertThemeToText(currentTheme)
-      }
-    })
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab))
   })
 
   // Text editor
@@ -183,6 +175,9 @@ function init () {
     reader.readAsText(file)
     e.target.value = ''
   })
+
+  // AI theme generator (lives in the "AI" tab)
+  initAiGenerator()
 
   renderEditor()
 }
@@ -276,6 +271,105 @@ function applyThemeToIframe () {
   if (isIframeReady()) {
     applyTheme(currentTheme.themeConfig, currentTheme.uiThemeConfig)
   }
+}
+
+// ── AI theme generator ────────────────────────────────────────
+function initAiGenerator () {
+  const btnGenerate = document.getElementById('btn-ai-generate')
+  const textarea = document.getElementById('ai-description')
+  if (!btnGenerate || !textarea) return
+
+  btnGenerate.addEventListener('click', handleAiGenerate)
+
+  // submit on Ctrl/Cmd+Enter inside the textarea
+  textarea.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault()
+      handleAiGenerate()
+    }
+  })
+}
+
+async function handleAiGenerate () {
+  const textarea = document.getElementById('ai-description')
+  const btnGenerate = document.getElementById('btn-ai-generate')
+  const description = (textarea.value || '').trim()
+
+  if (!description) {
+    toast(t('page.editor.aiEmptyDesc'), 'error')
+    return
+  }
+
+  // AI generation is server-side and gated by auth — sign in first if needed.
+  if (!isLoggedIn()) {
+    try {
+      await loginWithPopup('/')
+    } catch (err) {
+      toast(err.message || t('page.editor.aiLoginRequired'), 'error')
+      return
+    }
+    if (!isLoggedIn()) {
+      toast(t('page.editor.aiLoginRequired'), 'error')
+      return
+    }
+  }
+
+  btnGenerate.disabled = true
+  btnGenerate.textContent = t('page.editor.aiGenerating')
+
+  try {
+    const data = await apiPost('/themes/ai-create', { description })
+    const theme = data && data.theme
+    if (!theme || !theme.themeConfig) {
+      throw new Error('Invalid AI response')
+    }
+    loadThemeIntoEditor(theme)
+    toast(t('page.editor.aiGenerated'), 'success')
+  } catch (err) {
+    toast(err.message || 'AI generation failed', 'error')
+  } finally {
+    btnGenerate.disabled = false
+    btnGenerate.textContent = t('page.editor.aiGenerate')
+  }
+}
+
+/**
+ * Switch the active editor tab (picker / text / ai).
+ */
+function switchTab (name) {
+  activeTab = name
+  document.querySelectorAll('.tab-btn').forEach((b) => {
+    b.classList.toggle('active', b.dataset.tab === name)
+  })
+  document.querySelectorAll('.tab-content').forEach((panel) => {
+    panel.style.display = panel.id === 'tab-' + name ? '' : 'none'
+  })
+  if (activeTab === 'text') {
+    document.getElementById('theme-text').value = convertThemeToText(currentTheme)
+  }
+}
+
+/**
+ * Load a full theme object ({ name, themeConfig, uiThemeConfig }) into the
+ * editor, refreshing name input, text editor, color pickers and preview.
+ */
+function loadThemeIntoEditor (theme) {
+  currentTheme = {
+    name: theme.name || 'My Theme',
+    themeConfig: theme.themeConfig || {},
+    uiThemeConfig: theme.uiThemeConfig || {}
+  }
+  // An AI-generated theme is a fresh starting point — clear any prior
+  // edit binding so saving creates a new theme rather than overwriting.
+  editingThemeId = null
+  const url = new URL(window.location)
+  url.searchParams.delete('edit')
+  window.history.replaceState({}, '', url)
+
+  document.getElementById('theme-name-input').value = currentTheme.name
+  renderEditor()
+  // Show the generated colors in the picker tab
+  switchTab('picker')
 }
 
 async function handleSave () {

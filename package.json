@@ -15,6 +15,7 @@
     "build:static": "node src/scripts/build-static.js",
     "lint": "standard",
     "fix": "standard --fix",
+    "test": "node --test \"test/**/*.test.js\"",
     "deploy": "npm run build && wrangler deploy",
     "db:migrate": "wrangler d1 execute theme-electerm-db --local --file=./migrations/0001_init.sql",
     "db:migrate:remote": "wrangler d1 execute theme-electerm-db --remote --file=./migrations/0001_init.sql"
@@ -31,6 +32,19 @@
     ],
     "envs": [
       "browser"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "test/**/*.js",
+          "src/worker/**/*.js",
+          "src/scripts/**/*.js"
+        ],
+        "envs": [
+          "browser",
+          "node"
+        ]
+      }
     ]
   },
   "devDependencies": {
