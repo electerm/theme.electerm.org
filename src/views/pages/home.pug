@@ -46,6 +46,10 @@ block content
             .ai-tab-actions
               button#btn-ai-generate.btn.btn-primary(type='button' data-i18n="page.editor.aiGenerate")= page.editor.aiGenerate
             p.ai-tab-hint(data-i18n="page.editor.aiHint")= page.editor.aiHint
+            p.ai-tab-powered
+              span(data-i18n="page.editor.aiPoweredBy")= page.editor.aiPoweredBy
+              | &#32;
+              a(href='https://ai.electerm.org' target='_blank' rel='noopener noreferrer') https://ai.electerm.org
 
       .preview-panel
         .preview-frame-wrap
