@@ -18,7 +18,10 @@ export const SITE = {
   backgroundColor: '#ffffff',
   locale: 'en',
   // Google Analytics 4 measurement ID
-  gaId: 'G-LCY5SM7M8J'
+  gaId: 'G-LCY5SM7M8J',
+  // Ads network switch. 'ethical' (EthicalAds) is the default network;
+  // set to 'carbon' to serve Carbon Ads site-wide.
+  adProvider: 'carbon'
 }
 
 export function siteUrl (isProd = true) {

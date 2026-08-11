@@ -1,0 +1,48 @@
+// ===== Carbon Ads =====
+// Mirrors the EthicalAds layout: bottom bar (< 1420px) / corner card (>= 1420px).
+// Hidden by default; shown by JS (carbon-ad-active) only when injecting carbon.js.
+
+.carbon-ad-wrapper
+  display: none
+  position: fixed
+  bottom: 0
+  left: 0
+  right: 0
+  z-index: 998
+  min-height: 56px
+  align-items: center
+  justify-content: center
+  padding: 8px 20px
+  background: #f8fafc
+  border-top: 1px solid #e5e5e5
+
+  // When JS activates it, restore intended layout
+  &.carbon-ad-active
+    display: flex
+
+  // >= 1420px: corner card
+  @media (min-width: 1420px)
+    min-height: auto
+    bottom: 24px
+    left: auto
+    right: 24px
+    z-index: 999
+    padding: 0
+    border: none
+    max-width: 300px
+    background: #fff
+    border-radius: 10px
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04)
+
+    &.carbon-ad-active
+      display: block
+
+  // Override Carbon Ads default card chrome so it fills our wrapper cleanly
+  #carbon-responsive
+    #carbonads
+      position: static
+      width: 100%
+      max-width: 100%
+      margin: 0
+      background: transparent
+      box-shadow: none
