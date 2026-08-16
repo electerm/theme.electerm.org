@@ -21,7 +21,7 @@ export const SITE = {
   gaId: 'G-LCY5SM7M8J',
   // Ads network switch. 'ethical' (EthicalAds) is the default network;
   // set to 'carbon' to serve Carbon Ads site-wide.
-  adProvider: 'carbon'
+  adProvider: 'ethical'
 }
 
 export function siteUrl (isProd = true) {
