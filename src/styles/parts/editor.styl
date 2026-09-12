@@ -132,22 +132,63 @@
     border: none
     border-radius: 4px
 
-.theme-textarea
-  width: 100%
+// Code editor overlay (syntax-highlighted text editor)
+.editor-code
+  position: relative
   height: 100%
   min-height: 400px
   background: var(--gray-50)
   border: 1px solid var(--border)
-  color: var(--text)
-  padding: 12px
   border-radius: var(--radius-sm)
+  overflow: hidden
+  &:focus-within
+    border-color: var(--brand-600)
+
+// Shared box metrics so the highlight layer lines up exactly with the textarea
+.editor-code-highlight,
+.theme-textarea.editor-code-input
+  margin: 0
+  border: 0
+  padding: 12px
   font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace
   font-size: 12px
   line-height: 1.6
+  white-space: pre-wrap
+  overflow-wrap: break-word
+  word-break: break-word
+  tab-size: 2
+
+.editor-code-highlight
+  position: absolute
+  inset: 0
+  overflow: hidden
+  pointer-events: none
+  color: var(--text)
+  z-index: 1
+
+.theme-textarea.editor-code-input
+  position: absolute
+  inset: 0
+  width: 100%
+  height: 100%
+  min-height: 0
+  background: transparent
+  color: transparent
+  caret-color: var(--text)
   resize: none
-  &:focus
-    outline: none
-    border-color: var(--brand-600)
+  z-index: 2
+  &::placeholder
+    color: var(--text-muted)
+
+// Token colors — name / "=" / value each distinct
+.tok-name
+  color: #2563eb
+.tok-eq
+  color: #a855f7
+.tok-value
+  color: #059669
+.tok-plain
+  color: var(--text-muted)
 
 // Preview panel with phone frame
 .preview-panel

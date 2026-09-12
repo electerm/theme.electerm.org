@@ -38,7 +38,9 @@ block content
               h4.group-title(data-i18n="page.editor.terminalColors")= page.editor.terminalColors
               #terminal-colors.color-list
         .tab-content#tab-text(style='display:none')
-          textarea#theme-text.theme-textarea(data-i18n-placeholder="page.editor.textPlaceholder" placeholder=page.editor.textPlaceholder)
+          .editor-code
+            pre.editor-code-highlight#theme-highlight(aria-hidden='true')
+            textarea#theme-text.theme-textarea.editor-code-input(data-i18n-placeholder="page.editor.textPlaceholder" placeholder=page.editor.textPlaceholder)
         .tab-content#tab-ai(style='display:none')
           .ai-tab
             p.ai-tab-desc(data-i18n="page.editor.aiDesc")= page.editor.aiDesc

@@ -13,6 +13,45 @@ let currentTheme = defaultTheme()
 let editingThemeId = null
 let activeTab = 'picker'
 
+// ── Text editor syntax highlight (overlay) ──────────────────
+let highlightEl = null
+
+function escapeHtml (s) {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
+/**
+ * Render `name=value` lines into colored spans:
+ * name → blue, "=" → violet, value → green.
+ * Lines without "=" are shown as dim plain text.
+ */
+function highlightThemeText (text) {
+  const lines = text.split('\n')
+  const html = lines.map((line) => {
+    const idx = line.indexOf('=')
+    if (idx === -1) {
+      // keep empty lines as-is so wrapping matches the textarea
+      return line ? `<span class='tok-plain'>${escapeHtml(line)}</span>` : ''
+    }
+    const name = line.slice(0, idx)
+    const value = line.slice(idx + 1)
+    return `<span class='tok-name'>${escapeHtml(name)}</span><span class='tok-eq'>=</span><span class='tok-value'>${escapeHtml(value)}</span>`
+  }).join('\n')
+  // trailing newline keeps the last line height in sync with the textarea
+  return html + '\n'
+}
+
+function updateHighlight () {
+  const textArea = document.getElementById('theme-text')
+  if (!textArea || !highlightEl) return
+  highlightEl.innerHTML = highlightThemeText(textArea.value)
+  highlightEl.scrollTop = textArea.scrollTop
+  highlightEl.scrollLeft = textArea.scrollLeft
+}
+
 function init () {
   // Initialize header (i18n, mobile menu, user menu)
   initHeader()
@@ -78,6 +117,7 @@ function init () {
 
   // Text editor
   const textArea = document.getElementById('theme-text')
+  highlightEl = document.getElementById('theme-highlight')
   textArea.value = convertThemeToText(currentTheme)
   textArea.addEventListener('input', () => {
     const converted = convertTheme(textArea.value)
@@ -86,7 +126,13 @@ function init () {
     if (converted.name) currentTheme.name = converted.name
     applyThemeToIframe()
     renderColorPickers()
+    updateHighlight()
   })
+  textArea.addEventListener('scroll', () => {
+    highlightEl.scrollTop = textArea.scrollTop
+    highlightEl.scrollLeft = textArea.scrollLeft
+  })
+  updateHighlight()
 
   // Save button
   document.getElementById('btn-save').addEventListener('click', handleSave)
@@ -121,6 +167,7 @@ function init () {
       }
       nameInput.value = currentTheme.name
       textArea.value = convertThemeToText(currentTheme)
+      updateHighlight()
       renderColorPickers()
       applyThemeToIframe()
       toast(t('toast.themeImported'), 'success')
@@ -139,6 +186,7 @@ function renderEditor () {
   renderColorPickers()
   document.getElementById('theme-text').value = convertThemeToText(currentTheme)
   applyThemeToIframe()
+  updateHighlight()
 
   // Show publish button if editing and theme is already saved
   if (editingThemeId) {
@@ -216,6 +264,7 @@ function handleColorChange (e) {
 
   // Update text editor
   document.getElementById('theme-text').value = convertThemeToText(currentTheme)
+  updateHighlight()
 
   applyThemeToIframe()
 }
@@ -300,6 +349,7 @@ function switchTab (name) {
   })
   if (activeTab === 'text') {
     document.getElementById('theme-text').value = convertThemeToText(currentTheme)
+    updateHighlight()
   }
 }
 
