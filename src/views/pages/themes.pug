@@ -6,8 +6,9 @@ block content
       h1.page-title(data-i18n="page.title")= page.title
       .page-stats#theme-stats
       .sort-controls
-        button.sort-btn.active(type='button' data-sort='newest' data-i18n="page.newest")= page.newest
-        button.sort-btn(type='button' data-sort='popular' data-i18n="page.popular")= page.popular
+        button.sort-btn.active(type='button' data-source='community' data-sort='newest' data-i18n="page.newest")= page.newest
+        button.sort-btn(type='button' data-source='community' data-sort='popular' data-i18n="page.popular")= page.popular
+        button.sort-btn(type='button' data-source='builtin' data-sort='' data-i18n="page.builtin")= page.builtin
     .themes-grid#themes-grid
       .loading(data-i18n="page.loading")= page.loading
     .load-more-wrap#load-more-wrap(style='display:none')

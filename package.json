@@ -13,6 +13,7 @@
     "build:styles": "node src/scripts/build-styles.js",
     "build:js": "node src/scripts/build-js.js",
     "build:static": "node src/scripts/build-static.js",
+    "build:electerm-themes": "node src/scripts/build-electerm-themes.js",
     "lint": "standard",
     "fix": "standard --fix",
     "test": "node --test \"test/**/*.test.js\"",
@@ -48,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "@electerm/electerm-themes": "1.0.1",
     "concurrently": "^10.0.3",
     "esbuild": "^0.24.0",
     "express": "^4.21.2",

@@ -6,9 +6,11 @@ import { buildPreviewSwatches } from '../lib/ui.js'
 import { initHeader } from '../parts/header.js'
 import { t } from '../parts/i18n-inline.js'
 
+let currentSource = 'community' // community | builtin
 let currentSort = 'newest'
 let offset = 0
 let total = 0
+let builtinThemesCache = null
 const LIMIT = 24
 
 function init () {
@@ -16,18 +18,24 @@ function init () {
   loadThemes(true)
   loadMeta()
 
-  // Sort buttons
+  // Sort / source buttons
   document.querySelectorAll('.sort-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
-      currentSort = btn.dataset.sort
+      currentSource = btn.dataset.source || 'community'
+      currentSort = btn.dataset.sort || 'newest'
       document.querySelectorAll('.sort-btn').forEach((b) => b.classList.toggle('active', b === btn))
-      offset = 0
-      loadThemes(true)
+      if (currentSource === 'builtin') {
+        loadBuiltinThemes()
+      } else {
+        offset = 0
+        loadThemes(true)
+      }
     })
   })
 
-  // Load more
+  // Load more (community only)
   document.getElementById('btn-load-more').addEventListener('click', () => {
+    if (currentSource === 'builtin') return
     loadThemes(false)
   })
 }
@@ -82,6 +90,71 @@ async function loadThemes (reset) {
   } catch (err) {
     grid.innerHTML = `<div class="empty-state">${t('page.failed')}: ${err.message}</div>`
   }
+}
+
+/**
+ * Load and render electerm's built-in themes from the static JSON file.
+ * These are not stored in the DB — clicking a card opens it in the editor
+ * (via the ?import= flow) so the user can tweak and save a copy.
+ */
+async function loadBuiltinThemes () {
+  const grid = document.getElementById('themes-grid')
+  const loadMoreWrap = document.getElementById('load-more-wrap')
+  grid.innerHTML = `<div class="loading">${t('page.loading')}</div>`
+  loadMoreWrap.style.display = 'none'
+
+  try {
+    if (!builtinThemesCache) {
+      // Static file served at the site root (not under /api).
+      const res = await fetch('/electerm-themes.json')
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      builtinThemesCache = await res.json()
+    }
+    const themes = [...builtinThemesCache].sort((a, b) =>
+      (a.name || '').localeCompare(b.name || '')
+    )
+
+    if (!themes.length) {
+      grid.innerHTML = `<div class="empty-state">${t('page.noThemes')}</div>`
+      return
+    }
+
+    grid.innerHTML = ''
+    for (const theme of themes) {
+      grid.appendChild(buildBuiltinCard(theme))
+    }
+  } catch (err) {
+    grid.innerHTML = `<div class="empty-state">${t('page.failed')}: ${err.message}</div>`
+  }
+}
+
+function buildBuiltinCard (theme) {
+  const card = document.createElement('div')
+  card.className = 'theme-card theme-card-builtin'
+  card.addEventListener('click', () => {
+    const importData = encodeURIComponent(JSON.stringify({
+      name: theme.name,
+      themeConfig: theme.themeConfig,
+      uiThemeConfig: theme.uiThemeConfig
+    }))
+    window.location.href = `/?import=${importData}`
+  })
+
+  const swatches = buildPreviewSwatches(theme.themeConfig, theme.uiThemeConfig)
+
+  card.innerHTML = `
+    <div class="theme-card-preview">
+      <div class="theme-card-colors">${swatches}</div>
+    </div>
+    <div class="theme-card-info">
+      <div class="theme-card-name">${escapeHtml(theme.name)}</div>
+      <div class="theme-card-meta">
+        <span class="theme-card-builtin-badge" data-i18n="page.builtin">${t('page.builtin')}</span>
+      </div>
+    </div>
+  `
+
+  return card
 }
 
 function buildThemeCard (theme) {

@@ -157,10 +157,10 @@ function renderColorPickers () {
     const value = currentTheme.uiThemeConfig[key] || '#000000'
     return `
       <div class="color-item">
-        <span class="color-item-label">${key}</span>
         <div class="color-picker-wrap">
           <input type="color" class="color-picker-input" data-section="ui" data-key="${key}" value="${normalizeColor(value)}">
         </div>
+        <span class="color-item-label">${key}</span>
       </div>
     `
   }).join('')
@@ -169,10 +169,10 @@ function renderColorPickers () {
     const value = currentTheme.themeConfig[key] || '#000000'
     return `
       <div class="color-item">
-        <span class="color-item-label">${key}</span>
         <div class="color-picker-wrap">
           <input type="color" class="color-picker-input" data-section="term" data-key="${key}" value="${normalizeColor(value)}">
         </div>
+        <span class="color-item-label">${key}</span>
       </div>
     `
   }).join('')
